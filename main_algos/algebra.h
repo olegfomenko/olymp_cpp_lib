@@ -128,6 +128,17 @@ namespace alg {
 
         return (n & 1) ? step * a : step;
     }
+
+    /**
+     * Modular multiplicative inverse
+     * @tparam T - value type
+     * @param n - value
+     * @param mod - module
+     * @return the value m that n * m % mod == 1
+     */
+    template <typename T> T modular_inverse(T n, T mod) {
+        return bpow(n, mod - 2, mod);
+    }
 }
 
 

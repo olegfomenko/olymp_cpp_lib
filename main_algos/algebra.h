@@ -1,9 +1,6 @@
 #ifndef CODE_ALGEBRA_H
 #define CODE_ALGEBRA_H
 
-#include "iostream"
-using namespace std;
-
 namespace alg {
     /**
      * GCD Euclid's algorithm function
@@ -82,7 +79,7 @@ namespace alg {
      * @param n
      * @return count of natural values i from 1 to n that gcd(i, n) = 1
      */
-    template <class T> T phi(T n) {
+    template <typename T> T phi(T n) {
         T result = n;
 
         for(T i = 2; i < n / i + 1 && n > 1; ++i) {
@@ -98,12 +95,40 @@ namespace alg {
         if(n > 1) result = (result / n) * (n - 1);
         return result;
     }
+
+    /**
+     * Exponentiation by squaring with dividing by module. Complexity: O( logN )
+     * @tparam T - value type
+     * @param a - base
+     * @param n - power
+     * @param mod - dividing by module
+     * @return
+     */
+    template <typename T> T bpow(T a, T n, T mod) {
+        if(a == 1 || n == 0) return 1;
+        if(n == 1) return a % mod;
+
+        T step = bpow((a * a) % mod, n / 2, mod);
+
+        return (n & 1) ? (step * a) % mod : step;
+    }
+
+    /**
+    * Exponentiation by squaring. Complexity: O( logN )
+    * @tparam T - value type
+    * @param a - base
+    * @param n - power
+    * @return
+    */
+    template <typename T> T bpow(T a, T n) {
+        if(a == 1 || n == 0) return 1;
+        if(n == 1) return a;
+
+        T step = bpow(a * a, n / 2);
+
+        return (n & 1) ? step * a : step;
+    }
 }
 
 
-
-
-
 #endif //CODE_ALGEBRA_H
-
-

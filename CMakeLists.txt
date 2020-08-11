@@ -1,6 +1,6 @@
 # cmake_minimum_required(VERSION <specify CMake version here>)
-project(code)
+project(core)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(code main.cpp main_algos/algebra.h)
+add_executable(core main.cpp core/algebra.h core/data_structure.h)

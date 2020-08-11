@@ -9,7 +9,8 @@ namespace alg {
      * @param b - second val
      * @return greatest common divider
      */
-    template <typename T> T gcd(T a, T b) {
+    template <typename T>
+    T gcd(T a, T b) {
         return b == 0? a : gcd(b, a % b);
     }
 
@@ -20,7 +21,8 @@ namespace alg {
      * @param b - second val
      * @return least common multiple
      */
-    template <typename T> T lcm(T a, T b) {
+    template <typename T>
+    T lcm(T a, T b) {
         return (a / gcd(a, b)) * b;
     }
 
@@ -31,7 +33,8 @@ namespace alg {
      * @param start - address of array start's
      * @param end - address of array end's
      */
-    template <typename T> void fill_prime(T * start, T * end) {
+    template <typename T>
+    void fill_prime(T * start, T * end) {
         int N = end - start;
         fill(start, end, 0);
 
@@ -51,7 +54,8 @@ namespace alg {
      * @param start - address of array start's
      * @param N - array size
      */
-    template <typename T> void fill_prime(T * start, T N) {
+    template <typename T>
+    void fill_prime(T * start, T N) {
         fill_prime(start, start + N);
     }
 
@@ -62,7 +66,8 @@ namespace alg {
      * @param array with 0 - value on prime index and least prime divider value on non-prime indexes
      * @return count of natural values i from 1 to n that gcd(i, n) = 1
      */
-    template <typename T> T phi(T n, T * prime) {
+    template <typename T>
+    T phi(T n, T * prime) {
         T result = n;
 
         while(n > 1) {
@@ -79,7 +84,8 @@ namespace alg {
      * @param n
      * @return count of natural values i from 1 to n that gcd(i, n) = 1
      */
-    template <typename T> T phi(T n) {
+    template <typename T>
+    T phi(T n) {
         T result = n;
 
         for(T i = 2; i < n / i + 1 && n > 1; ++i) {
@@ -104,7 +110,8 @@ namespace alg {
      * @param mod - dividing by module
      * @return
      */
-    template <typename T> T bpow(T a, T n, T mod) {
+    template <typename T>
+    T bpow(T a, T n, T mod) {
         if(a == 1 || n == 0) return 1;
         if(n == 1) return a % mod;
 
@@ -120,7 +127,8 @@ namespace alg {
     * @param n - power
     * @return
     */
-    template <typename T> T bpow(T a, T n) {
+    template <typename T>
+    T bpow(T a, T n) {
         if(a == 1 || n == 0) return 1;
         if(n == 1) return a;
 
@@ -136,7 +144,8 @@ namespace alg {
      * @param mod - module
      * @return the value m that n * m % mod == 1
      */
-    template <typename T> T modular_inverse(T n, T mod) {
+    template <typename T>
+    T modular_inverse(T n, T mod) {
         return bpow(n, mod - 2, mod);
     }
 }

@@ -34,7 +34,7 @@ namespace alg {
      * @param end - address of array end's
      */
     template <typename T>
-    void fill_prime(T * start, T * end) {
+    void fillPrime(T * start, T * end) {
         int N = end - start;
         fill(start, end, 0);
 
@@ -55,8 +55,8 @@ namespace alg {
      * @param N - array size
      */
     template <typename T>
-    void fill_prime(T * start, T N) {
-        fill_prime(start, start + N);
+    void fillPrime(T * start, T N) {
+        fillPrime(start, start + N);
     }
 
     /**
@@ -145,7 +145,7 @@ namespace alg {
      * @return the value m that n * m % mod == 1
      */
     template <typename T>
-    T modular_inverse(T n, T mod) {
+    T modularInverse(T n, T mod) {
         return bpow(n, mod - 2, mod);
     }
 }

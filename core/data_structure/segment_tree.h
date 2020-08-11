@@ -15,7 +15,7 @@ using namespace std;
  */
 
 template <typename T>
-class segment_tree {
+class SegmentTree {
 private:
     const int n;
     T * a;
@@ -63,9 +63,9 @@ public:
      * @param zero - zero value when value not found, etc.
      * @param operation - lambda-function with two T type arguments that returns operation result for node's sons
      */
-    segment_tree(const int n, T *a, const T zero, const op_f &operation);
+    SegmentTree(const int n, T *a, const T zero, const op_f &operation);
 
-    ~segment_tree();
+    ~SegmentTree();
 
     /**
      * Get operation on [l; r] with complexity O( logN )
@@ -84,7 +84,7 @@ public:
 };
 
 template<typename T>
-void segment_tree<T>::build(int v, int tl, int tr) {
+void SegmentTree<T>::build(int v, int tl, int tr) {
     if(tl == tr) {
         t[v] = a[tl];
         return;
@@ -100,7 +100,7 @@ void segment_tree<T>::build(int v, int tl, int tr) {
 
 
 template<typename T>
-T segment_tree<T>::get(int v, int tl, int tr, int l, int r) {
+T SegmentTree<T>::get(int v, int tl, int tr, int l, int r) {
     if (l > r) return zero_value;
     if (tl == tr) return t[v];
 
@@ -112,12 +112,12 @@ T segment_tree<T>::get(int v, int tl, int tr, int l, int r) {
 }
 
 template<typename T>
-T segment_tree<T>::get(int l, int r) {
+T SegmentTree<T>::get(int l, int r) {
     return get(1, 0, n - 1, l, r);
 }
 
 template<typename T>
-void segment_tree<T>::update(int v, int tl, int tr, int pos, T val) {
+void SegmentTree<T>::update(int v, int tl, int tr, int pos, T val) {
     if(tl == tr) {
         t[v] = val;
         return;
@@ -135,17 +135,17 @@ void segment_tree<T>::update(int v, int tl, int tr, int pos, T val) {
 }
 
 template<typename T>
-void segment_tree<T>::update(int pos, T val) {
+void SegmentTree<T>::update(int pos, T val) {
     update(1, 0, n - 1, pos, val);
 }
 
 template<typename T>
-segment_tree<T>::~segment_tree() {
+SegmentTree<T>::~SegmentTree() {
     delete [] t;
 }
 
 template<typename T>
-segment_tree<T>::segment_tree(const int n, T *a, const T zero, const op_f &o):n(n), a(a), operation(o), zero_value(zero) {
+SegmentTree<T>::SegmentTree(const int n, T *a, const T zero, const op_f &o):n(n), a(a), operation(o), zero_value(zero) {
     t = new int[4 * n];
     build(1, 0, n - 1);
 }

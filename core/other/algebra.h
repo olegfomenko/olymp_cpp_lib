@@ -1,6 +1,9 @@
 #ifndef CODE_ALGEBRA_H
 #define CODE_ALGEBRA_H
 
+#include <functional>
+using namespace std;
+
 namespace alg {
     /**
      * GCD Euclid's algorithm function
@@ -147,6 +150,29 @@ namespace alg {
     template <typename T>
     T modularInverse(T n, T mod) {
         return bpow(n, mod - 2, mod);
+    }
+
+    /**
+     * Ternary search function. About: https://en.wikipedia.org/wiki/Ternary_search
+     * @tparam T - border types
+     * @tparam D - investigated function return type
+     * @param l - left border
+     * @param r - right border
+     * @param eps - acceptable computation error
+     * @param fType - type of function (1 if convex and 0 if hollow)
+     * @param f - investigated function
+     * @return investigated function extremum point
+     */
+    template<typename T, typename D>
+    T ternarySearch(T l, T r, const D eps, const bool fType, const function<D(T)> f) {
+        while (r - l > eps) {
+            T ml = (r + l) / 2 - eps;
+            T mr = (r + l) / 2 + eps;
+
+            f(ml) > f(mr) ^ fType ? l = mr : r = ml;
+        }
+
+        return (r + l) / 2;
     }
 }
 

@@ -9,7 +9,6 @@
 #include <vector>
 using namespace std;
 
-
 /**
  * Disjoint-set data structure. Adding edge and find with complexity O ( logN )
  * About: https://e-maxx.ru/algo/dsu

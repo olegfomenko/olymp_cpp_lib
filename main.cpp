@@ -1,5 +1,5 @@
 #include <iostream>
-#include "core/data_structure.h"
+#include "core/data_structure/segment_tree.h"
 
 
 using namespace std;

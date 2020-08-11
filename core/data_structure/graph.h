@@ -8,21 +8,26 @@
 #include <vector>
 using namespace std;
 
-template<typename T>
-class Graph {
-private:
-    int n;
-    int m;
+namespace alg {
 
-    vector<int> * g;
-public:
-    const int MAX_SIZE = 1000000;
+    template<typename T>
+    class Graph {
+    private:
+        int n;
+        int m;
 
-    Graph();
-};
+        vector<int> *g;
+    public:
+        const int MAX_SIZE = 1000000;
 
-template<typename T>
-Graph<T>::Graph() : n(0), m(0) {
-    g = new vector<int>[MAX_SIZE];
+        Graph();
+    };
+
+    template<typename T>
+    Graph<T>::Graph() : n(0), m(0) {
+        g = new vector<int>[MAX_SIZE];
+    }
+
 }
+
 #endif //CORE_GRAPH_H

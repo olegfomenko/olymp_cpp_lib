@@ -19,9 +19,9 @@ namespace alg {
      * Removing vertex by O ( K log N), where K - outcomig edges
      */
 
+    template<typename T>
     class DynamicGraph {
     private:
-
         int m;
 
         bool directed;
@@ -29,14 +29,21 @@ namespace alg {
         /**
          * Graph and inverse graph maps
          */
-        map<int, multiset<int> > g, _g;
+        map<T, multiset<T> > g, _g;
 
         /**
          * Adding directed edge function
          * @param start - start vertex
          * @param finish - finish vertex
          */
-        void addDirectedEdge(int start, int finish);
+        void addDirectedEdge(T start, T finish);
+
+        /**
+         * Deep first search for calculating components of graph by O ( N + M ) complexity
+         * @param v - current vertex (unused before)
+         */
+        void countComponents(T v, map<T, bool> & used);
+
     public:
         /**
          * Creating empty graph
@@ -55,7 +62,7 @@ namespace alg {
          * @param x - vertex
          * @param y - vertex
          */
-        void add(int x, int y);
+        void add(T x, T y);
 
         /**
          * @return Uninsulated vertex count
@@ -73,37 +80,53 @@ namespace alg {
          * @param y - vertex
          * @return true if edge was removed
          */
-        bool removeEdge(int x, int y);
+        bool removeEdge(T x, T y);
 
         /**
          * Removing vertex with all edges
          * @param v - vertex
          */
-        void removeVertex(int v);
+        void removeVertex(T v);
 
         /**
          * Get graph map
          * @return graph map
          */
-        map<int, multiset<int> > & getGraph();
+        map<T, multiset<T> > getGraph();
 
         /**
          * Get inverse graph map
          * @return inverse graph map
          */
-        map<int, multiset<int> > & getInverseGraph();
+        map<T, multiset<T> > getInverseGraph();
+
+        /**
+         * Calculate components of graph by O ( N + M ) complexity
+         * @param v - current vertex (unused before)
+         */
+        int countComponents();
+
+        /**
+         * Adding isolated vertex
+         * @param v - vertex
+         */
+        void addVertex(T v);
     };
 
-    DynamicGraph::DynamicGraph(bool directed) : m(0), directed(directed) {}
+    template<typename T>
+    DynamicGraph<T>::DynamicGraph(bool directed) : m(0), directed(directed) {}
 
-    DynamicGraph::DynamicGraph() : m(0), directed(false) {}
+    template<typename T>
+    DynamicGraph<T>::DynamicGraph() : m(0), directed(false) {}
 
-    void DynamicGraph::addDirectedEdge(int start, int finish) {
+    template<typename T>
+    void DynamicGraph<T>::addDirectedEdge(T start, T finish) {
         g[start].insert(finish);
         _g[finish].insert(start);
     }
 
-    void DynamicGraph::add(int x, int y) {
+    template<typename T>
+    void DynamicGraph<T>::add(T x, T y) {
         ++m;
         addDirectedEdge(x, y);
         if(!directed) {
@@ -111,7 +134,8 @@ namespace alg {
         }
     }
 
-    bool DynamicGraph::removeEdge(int x, int y) {
+    template<typename T>
+    bool DynamicGraph<T>::removeEdge(T x, T y) {
         --m;
         if(g[x].count(y)) {
             g[x].erase(g[x].find(y));
@@ -122,7 +146,8 @@ namespace alg {
         }
     }
 
-    void DynamicGraph::removeVertex(int v) {
+    template<typename T>
+    void DynamicGraph<T>::removeVertex(T v) {
         for(int to : g[v]) {
             _g[to].erase(v);
         }
@@ -140,20 +165,69 @@ namespace alg {
         _g.erase(v);
     }
 
-    int DynamicGraph::size() {
+    template<typename T>
+    int DynamicGraph<T>::size() {
         return g.size();
     }
 
-    int DynamicGraph::edges() {
+    template<typename T>
+    int DynamicGraph<T>::edges() {
         return m;
     }
 
-    map<int, multiset<int> > &DynamicGraph::getGraph() {
+    template<typename T>
+    map<T, multiset<T> > DynamicGraph<T>::getGraph() {
         return g;
     }
 
-    map<int, multiset<int> > &DynamicGraph::getInverseGraph() {
+    template<typename T>
+    map<T, multiset<T> > DynamicGraph<T>::getInverseGraph() {
         return _g;
+    }
+
+    template<typename T>
+    void DynamicGraph<T>::countComponents(T v, map<T, bool> & used) {
+        used[v] = true;
+
+        set<T> neighbors;
+        neighbors.insert(g[v].begin(), g[v].end());
+        neighbors.insert(_g[v].begin(), _g[v].end());
+
+        for(T to : neighbors) {
+            if(!used[to]) {
+                countComponents(to, used);
+            }
+        }
+    }
+
+    template<typename T>
+    int DynamicGraph<T>::countComponents() {
+        int componentsCnt = 0;
+        map<T, bool> used;
+
+        for(auto p : g) {
+            if(!used[p.first]) {
+                countComponents(p.first, used);
+                ++componentsCnt;
+            }
+        }
+
+        for(auto p : _g) {
+            if(!used[p.first]) {
+                countComponents(p.first, used);
+                ++componentsCnt;
+            }
+        }
+
+        return componentsCnt;
+    }
+
+    template<typename T>
+    void DynamicGraph<T>::addVertex(T v) {
+        if(g.count(v) == 0) {
+            g[v] = multiset<T>();
+            _g[v] = multiset<T>();
+        }
     }
 }
 

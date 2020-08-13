@@ -57,6 +57,13 @@ namespace alg {
          */
         T get(int v, int tl, int tr, int l, int r);
 
+        /**
+         * Get tree vertex function (for out-class interaction)
+         * @param v - vertex index
+         * @return t[v];
+         */
+        T getNode(int v);
+
     public:
         /**
          * Segment tree constructor
@@ -152,6 +159,10 @@ namespace alg {
         build(1, 0, n - 1);
     }
 
+    template<typename T>
+    T SegmentTree<T>::getNode(int v) {
+        return t[v];
+    }
 }
 
 #endif //CODE_DATA_STRUCTURE_H
